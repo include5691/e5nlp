@@ -25,5 +25,7 @@ def inject_marks(text: str, customer_name: str | None = None, car_name: str | No
             user_name = parts[1]
     else:
         user_name = ""
+    if text[:2] == ", ":
+        text = text[2:]
     welcome_item = random.choice(WELCOME_LIST)
     return text.format(w=welcome_item, n=customer_name, c=car_name, u=user_name).replace("  ", " ").replace(" ,", ",").replace(",,", ",").replace(", , ", ", ")
