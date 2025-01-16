@@ -8,6 +8,8 @@ def filter_name(name: str | None) -> str | None:
     """
     Parse and filters first name
     """
+    if not name:
+        return None
     global morph
     if not morph:
         morph = MorphAnalyzer()
@@ -25,6 +27,8 @@ def filter_text(text: str | None) -> str | None:
     """
     Filters arbitrary text
     """
+    if not text:
+        return None
     result = []
     for entry in text.strip().lower().split(" "):
         if entry in ENTRIES_TO_EXCLUDE:
