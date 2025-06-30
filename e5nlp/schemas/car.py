@@ -1,5 +1,5 @@
 from pydantic import BaseModel, model_validator
-from .filters import filter_text
+from ..filters import filter_text
 
 class Car(BaseModel):
 

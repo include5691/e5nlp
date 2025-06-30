@@ -10,6 +10,7 @@ setup(
         'pymorphy3',
         'pydantic',
         'httpx',
-        'openai'
+        'openai',
+        'e5lib'
     ],
 )
