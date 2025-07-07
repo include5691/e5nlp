@@ -1,4 +1,6 @@
+import os
 from pydantic import BaseModel, model_validator
+
 from ..filters import filter_text
 
 class Car(BaseModel):
@@ -10,9 +12,9 @@ class Car(BaseModel):
     @model_validator(mode='before')
     @classmethod
     def validate(cls, data: dict) -> dict:
-        data["brand"] = filter_text(data.get("UF_CRM_MAKE"))
-        uf_crm_model: str = data.get("UF_CRM_MODEL")
-        uf_crm_year = data.get("UF_CRM_YEAR")
+        data["brand"] = filter_text(data.get(os.getenv("BRAND_FIELD")))
+        uf_crm_model: str = data.get(os.getenv("MODEL_FIELD"))
+        uf_crm_year = data.get(os.getenv("YEAR_FIELD"))
         try:
             uf_crm_year = int(uf_crm_year)
         except:
