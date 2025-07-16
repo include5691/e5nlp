@@ -19,6 +19,12 @@ ENTRIES_TO_EXCLUDE = [
 
 morph: MorphAnalyzer | None = None
 
+def _get_morph() -> MorphAnalyzer:
+    global morph
+    if not morph:
+        morph = MorphAnalyzer()
+    return morph
+
 
 def filter_name(name: str | None) -> str | None:
     """
@@ -26,13 +32,10 @@ def filter_name(name: str | None) -> str | None:
     """
     if not name:
         return None
-    global morph
-    if not morph:
-        morph = MorphAnalyzer()
     for entry in name.strip().lower().split(" "):
         if entry in ENTRIES_TO_EXCLUDE:
             continue
-        parsed = morph.parse(entry)
+        parsed = _get_morph().parse(entry)
         if not parsed:
             continue
         if "Name" in parsed[0].tag.grammemes:
@@ -40,9 +43,7 @@ def filter_name(name: str | None) -> str | None:
     return None
 
 
-def filter_full_name(
-    cls, name: str
-) -> str | None:
+def filter_full_name(name: str) -> str | None:
     """
     Filter full name
     """
@@ -55,7 +56,7 @@ def filter_full_name(
     for entry in name.split(" "):
         if entry in ENTRIES_TO_EXCLUDE:
             continue
-        entries = cls._get_morph().parse(entry)
+        entries = _get_morph().parse(entry)
         grammemes = [p.tag.grammemes for p in entries][0]
         if "Name" in grammemes and "sing" in grammemes:
             first_name = entry.capitalize()
